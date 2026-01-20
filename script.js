@@ -74,3 +74,29 @@ if (slides.length) {
     dot.addEventListener('click', () => updateSlider(index));
   });
 }
+
+// Fullscreen view for project images.
+const projectImages = document.querySelectorAll('.project-image');
+const openProjectImage = (img) => {
+  if (!img) return;
+  if (img.requestFullscreen) {
+    img.requestFullscreen().catch(() => {
+      window.open(img.src, '_blank');
+    });
+  } else {
+    window.open(img.src, '_blank');
+  }
+};
+
+projectImages.forEach((img) => {
+  img.setAttribute('tabindex', '0');
+  img.setAttribute('role', 'button');
+  img.setAttribute('aria-label', 'View full screen image');
+  img.addEventListener('click', () => openProjectImage(img));
+  img.addEventListener('keydown', (event) => {
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault();
+      openProjectImage(img);
+    }
+  });
+});
